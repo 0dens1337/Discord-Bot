@@ -2,12 +2,8 @@
 
 namespace App\Commands;
 
-use Discord\Builders\Components\ActionRow;
-use Discord\Builders\Components\Option;
-use Discord\Builders\Components\SelectMenu;
-use Discord\Builders\Components\StringSelect;
+use App\Enums\ColorMessageEnum;
 use Discord\Builders\MessageBuilder;
-use Discord\Interaction;
 use Laracord\Commands\Command;
 
 class SendReactionMessage extends Command
@@ -71,12 +67,12 @@ class SendReactionMessage extends Command
 
         if ($targetChannel) {
             $this
-                ->message('Тут бдует фотка')
+                ->message(ColorMessageEnum::TEMPLATE->value)
                 ->title('ㅤㅤㅤㅤ')
-                ->select($roles, route: 'roles', placeholder: 'Можешь выбрать цвет ника на сервере')
+                ->select($roles, placeholder: ColorMessageEnum::PICK_A_COLOR->value, route: 'roles')
                 ->send($targetChannel);
 
-            $message->channel->sendMessage('Команда с цветами успешно выполнена!');
+            $message->channel->sendMessage(ColorMessageEnum::SUCCESS->value);
         }
     }
 
@@ -100,7 +96,7 @@ class SendReactionMessage extends Command
 
                 $member->addRole($roleId);
 
-                $interaction->respondWithMessage(MessageBuilder::new()->setContent('Роль успешно обновлена!'), ephemeral: true);
+                $interaction->respondWithMessage(MessageBuilder::new()->setContent(ColorMessageEnum::SUCCESS_UPDATED->value), ephemeral: true);
             },
         ];
     }
