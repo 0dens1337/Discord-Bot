@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Enums\EmojiMessageEnum;
 use Discord\Builders\MessageBuilder;
 use Discord\Parts\Interactions\Interaction;
 use Laracord\Commands\Command;
@@ -68,11 +69,11 @@ class SendEmojiPicker extends Command
             $this
                 ->message('meow')
                 ->title('sosal?')
-                ->select($roles, route: 'emoji', placeholder: 'Можешь выбрать себе емодзи в ник')
+                ->select($roles, placeholder: EmojiMessageEnum::PICK_AN_EMOJI->value, route: 'emoji')
                 ->send($targetChannel);
         }
 
-        $message->channel->sendMessage('Команда с эмодзи успешно выполнена!');
+        $message->channel->sendMessage(EmojiMessageEnum::COMMAND_SUCESS->value);
     }
 
     /**
@@ -95,7 +96,7 @@ class SendEmojiPicker extends Command
 
                 $member->addRole($rolesId);
 
-                $interaction->respondWithMessage(MessageBuilder::new()->setContent('Эмодзи успешно обновлен!'), ephemeral: true);
+                $interaction->respondWithMessage(MessageBuilder::new()->setContent(EmojiMessageEnum::SUCCESS_UPDATED->value), ephemeral: true);
             }
         ];
     }
