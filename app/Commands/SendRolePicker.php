@@ -49,10 +49,10 @@ class SendRolePicker extends Command
     public function handle($message, $args)
     {
         $guild = $message->guild;
-//        $member = $guild->members->get('id', $message->author->id);
-//
-//        $requiredRole = config('laracord.role.admin');
-//        if (! $member->roles->has($requiredRole)) return;
+        $member = $guild->members->get('id', $message->author->id);
+
+       $requiredRole = config('laracord.role.admin');
+       if (! $member->roles->has($requiredRole)) return;
 
         $rolesWithNumbers = $guild->roles->filter(function ($role) {
             return preg_match('/\d/', $role->name);
@@ -66,15 +66,17 @@ class SendRolePicker extends Command
         })->toArray();
 
         $rolesWithIcons = $guild->roles->filter(function ($role) {
-            return $role->icon != null;
+            return $role->icon_hash != null;
         })->sort(function ($a, $b) {
             return strcasecmp($a->name, $b->name);
         })->map(function ($role) {
+            $roleIconId = $role->name . $role->id;
             return [
                 'label' => (string) $role->name,
                 'value' => (string) $role->id,
             ];
         })->toArray();
+
 
         $this
             ->message()
