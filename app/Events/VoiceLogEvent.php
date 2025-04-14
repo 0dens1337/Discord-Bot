@@ -23,6 +23,10 @@ class VoiceLogEvent extends Event
      */
     public function handle(VoiceStateUpdate $state, Discord $discord, ?VoiceStateUpdate $oldState)
     {
+        if ($state->channel_id === ($oldState?->channel_id ?? null)) {
+            return;
+        }
+
         $channel = config('laracord.messages.welcome_channel_id');
         $logChannel = $discord->getChannel($channel);
 
@@ -38,10 +42,11 @@ class VoiceLogEvent extends Event
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(
                 (new Embed($discord))
-                    ->setColor('000000')
+                    ->setColor($actionType === 'joined' ? '00FF00' : 'FF0000')
                     ->setTitle('Лог войса')
                     ->setDescription("Пользователь: {$user} {$formatedActionType} {$channelName}.")
             );
+
         $logChannel->sendMessage($messageBuilder);
     }
 

@@ -30,6 +30,18 @@ class LogEvent extends Event
         $userId = $auditLogEntry->user->username ?? 'unknown';
         $targetId = $auditLogEntry->target_id ?? 'я не понимаю зачем это нужно';
 
+        if ($actionType == 72) {
+            $messageBuilder = (new MessageBuilder())
+                ->addEmbed(
+                    (new Embed($discord))
+                        ->setColor('FF0000')
+                        ->setTitle('Лог удаления сообщения')
+                        ->setDescription("Действие: {$actionTypeFormated}\nПользователь: {$userId}\nЦель: {$targetId}")
+                );
+
+            $logChannel->sendMessage($messageBuilder);
+        }
+
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(
                 (new Embed($discord))
