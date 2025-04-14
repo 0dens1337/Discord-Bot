@@ -4,6 +4,7 @@ return [
     'messages' => [
         'welcome_channel_id' => env('WELCOME_CHANNEL_ID', 'meow'),
         'role_channel_id' => env('ROLE_CHANNEL_ID', 'meow'),
+        'log_channel_id' => env('LOG_CHANNEL_ID', 'meow'),
     ],
 
     'server' => [

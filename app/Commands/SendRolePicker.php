@@ -86,6 +86,7 @@ class SendRolePicker extends Command
                         (new Embed($this->discord()))
                             ->setColor('000000')
                             ->setImage(RoleMessageEnum::IMAGE->value)
+                            ->setDescription(str_repeat('ㅤ', 51))
                     )
             )
             ->send($message);
@@ -134,7 +135,7 @@ class SendRolePicker extends Command
 
                 if (! $member->roles->has($requiredRoleId)) {
                     $interaction->respondWithMessage(
-                        MessageBuilder::new()->setContent('У вас нет прав для использования этого действия.'),
+                        MessageBuilder::new()->setContent(RoleMessageEnum::NO_RIGHTS->value),
                         ephemeral: true
                     );
                     return;
