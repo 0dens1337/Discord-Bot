@@ -25,11 +25,6 @@ class LogEvent extends Event
         $logChannelId = config('laracord.messages.welcome_channel_id');
         $logChannel = $discord->getChannel($logChannelId);
 
-        if (!$logChannel) {
-            logger()->error('Log channel not found. Please check the configuration.');
-            return;
-        }
-
         $actionType = $auditLogEntry->action_type ?? 'unknown';
         $actionTypeFormated = $this->formatedActionType($actionType);
         $userId = $auditLogEntry->user->username ?? 'unknown';
