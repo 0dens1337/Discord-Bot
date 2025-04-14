@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Enums\EmbedColorsEnum;
 use App\Enums\RoleMessageEnum;
 use App\Enums\EmojiMessageEnum;
 use Discord\Builders\MessageBuilder;
@@ -69,7 +70,7 @@ class SendRolePicker extends Command
                 (new MessageBuilder())
                     ->addEmbed(
                         (new Embed($this->discord()))
-                            ->setColor('000000')
+                            ->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
                             ->setImage(RoleMessageEnum::IMAGE->value)
                             ->setDescription(str_repeat('ㅤ', 51))
                     )
@@ -80,7 +81,7 @@ class SendRolePicker extends Command
             ->message()
             ->withEmbed(
                 (new MessageBuilder())
-                    ->addEmbed((new Embed($this->discord()))->setColor('000000')
+                    ->addEmbed((new Embed($this->discord()))->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
                         ->setTitle(EmojiMessageEnum::EMOJI_TEMPLATE->value)
                         ->setDescription(RoleMessageEnum::TEMPLATE->value))
             )

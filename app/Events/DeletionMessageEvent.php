@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Enums\EmbedColorsEnum;
+use App\Enums\LogMessagesEnum;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Embed\Embed;
@@ -30,8 +32,8 @@ class DeletionMessageEvent extends Event
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(
                 (new Embed($discord))
-                    ->setColor('FF0000')
-                    ->setTitle('Лог действия')
+                    ->setColor(EmbedColorsEnum::RED_COLOR)
+                    ->setTitle(LogMessagesEnum::ACTION_MESSAGE->value)
                     ->setDescription("Сообщение с ID {$messageId}\nБыло удалено в канале {$channelId}.")
             );
 

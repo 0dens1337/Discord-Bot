@@ -3,6 +3,8 @@
 namespace App\Events;
 
 use App\Enums\ActionTypeEnum;
+use App\Enums\EmbedColorsEnum;
+use App\Enums\LogMessagesEnum;
 use Discord\Builders\MessageBuilder;
 use Discord\Parts\Embed\Embed;
 use Discord\WebSockets\Event as Events;
@@ -30,8 +32,8 @@ class LogEvent extends Event
         $userId = $auditLogEntry->user->username ?? 'unknown';
         $targetId = $auditLogEntry->target_id ?? 'я не понимаю зачем это нужно';
 
-        $embedColor = $actionType == 72 ? 'FF0000' : '000000';
-        $embedTitle = $actionType == 72 ? 'Лог удаления сообщения' : 'Лог действия';
+        $embedColor = $actionType == 72 ? EmbedColorsEnum::RED_COLOR->value : EmbedColorsEnum::DEFAULT_COLOR->value;
+        $embedTitle = $actionType == 72 ? LogMessagesEnum::DELETION_MESSAGE->value : LogMessagesEnum::ACTION_MESSAGE->value;
 
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(

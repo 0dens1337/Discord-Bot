@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Enums\EmbedColorsEnum;
+use App\Enums\LogMessagesEnum;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Embed\Embed;
@@ -42,8 +44,8 @@ class VoiceLogEvent extends Event
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(
                 (new Embed($discord))
-                    ->setColor($actionType === 'joined' ? '00FF00' : 'FF0000')
-                    ->setTitle('Лог войса')
+                    ->setColor($actionType === 'joined' ? EmbedColorsEnum::GREEN_COLOR : EmbedColorsEnum::RED_COLOR)
+                    ->setTitle(LogMessagesEnum::VOICE_MESSAGE->value)
                     ->setDescription("Пользователь: {$user} {$formatedActionType} {$channelName}.")
             );
 
