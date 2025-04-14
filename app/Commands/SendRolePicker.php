@@ -54,28 +54,13 @@ class SendRolePicker extends Command
        $requiredRole = config('laracord.role.admin');
        if (! $member->roles->has($requiredRole)) return;
 
-        $rolesWithNumbers = $guild->roles->filter(function ($role) {
+        $rolesWithNumbers = $this->getRolesByCondition($guild, function ($role) {
             return preg_match('/\d/', $role->name);
-        })->sort(function ($a, $b){
-            return strnatcmp($a->name, $b->name);
-        })->map(function ($role) {
-            return [
-                'label' => (string) $role->name,
-                'value' => (string) $role->id,
-            ];
-        })->toArray();
+        }, 'strnatcmp');
 
-        $rolesWithIcons = $guild->roles->filter(function ($role) {
+        $rolesWithIcons = $this->getRolesByCondition($guild, function ($role) {
             return $role->icon_hash != null;
-        })->sort(function ($a, $b) {
-            return strcasecmp($a->name, $b->name);
-        })->map(function ($role) {
-            $roleIconId = $role->name . $role->id;
-            return [
-                'label' => (string) $role->name,
-                'value' => (string) $role->id,
-            ];
-        })->toArray();
+        }, 'strcasecmp');
 
 
         $this
@@ -159,5 +144,19 @@ class SendRolePicker extends Command
                 );
             },
         ];
+    }
+
+    private function getRolesByCondition($guild, callable $filterCondition, string $sortFunction): array
+    {
+        return $guild->roles->filter($filterCondition)
+            ->sort(function ($a, $b) use ($sortFunction) {
+                return $sortFunction($a->name, $b->name);
+            })
+            ->map(function ($role) {
+                return [
+                    'label' => (string) $role->name,
+                    'value' => (string) $role->id,
+                ];
+            })->toArray();
     }
 }
