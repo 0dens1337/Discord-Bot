@@ -44,7 +44,7 @@ class VoiceLogEvent extends Event
         $messageBuilder = (new MessageBuilder())
             ->addEmbed(
                 (new Embed($discord))
-                    ->setColor($actionType === 'joined' ? EmbedColorsEnum::GREEN_COLOR : EmbedColorsEnum::RED_COLOR)
+                    ->setColor($actionType === 'joined' ? EmbedColorsEnum::GREEN_COLOR->value : EmbedColorsEnum::RED_COLOR->value)
                     ->setTitle(LogMessagesEnum::VOICE_MESSAGE->value)
                     ->setDescription("Пользователь: {$user} {$formatedActionType} {$channelName}.")
             );

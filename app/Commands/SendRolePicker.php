@@ -50,10 +50,10 @@ class SendRolePicker extends Command
     public function handle($message, $args)
     {
         $guild = $message->guild;
-        $member = $guild->members->get('id', $message->author->id);
-
-       $requiredRole = config('laracord.role.admin');
-       if (! $member->roles->has($requiredRole)) return;
+//        $member = $guild->members->get('id', $message->author->id);
+//
+//       $requiredRole = config('laracord.role.admin');
+//       if (! $member->roles->has($requiredRole)) return;
 
         $rolesWithNumbers = $this->getRolesByCondition($guild, function ($role) {
             return preg_match('/\d/', $role->name);
@@ -72,8 +72,8 @@ class SendRolePicker extends Command
                         (new Embed($this->discord()))
                             ->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
                             ->setImage(RoleMessageEnum::IMAGE->value)
-                            ->setDescription(str_repeat('ㅤ', 51))
                     )
+
             )
             ->send($message);
 
