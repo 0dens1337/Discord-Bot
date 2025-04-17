@@ -5,21 +5,21 @@ namespace App\Commands;
 use Discord\Parts\Interactions\Interaction;
 use Laracord\Commands\Command;
 
-class TestCommand extends Command
+class MusicCommand extends Command
 {
     /**
      * The command name.
      *
      * @var string
      */
-    protected $name = 'test';
+    protected $name = 'music-command';
 
     /**
      * The command description.
      *
      * @var string
      */
-    protected $description = 'Проверка коннекта с сервером';
+    protected $description = 'The Music Command command.';
 
     /**
      * Determines whether the command requires admin permissions.
@@ -33,7 +33,7 @@ class TestCommand extends Command
      *
      * @var bool
      */
-    protected $hidden = true;
+    protected $hidden = false;
 
     /**
      * Handle the command.
@@ -45,9 +45,20 @@ class TestCommand extends Command
     public function handle($message, $args)
     {
         return $this
-            ->message('Ее ебут в клубах, парят на хатах, а она остается саммой желланой на этом сервере.')
-            ->title('test')
-            ->image('https://i.pinimg.com/736x/e3/42/c7/e342c7fce89f8401ff662acc73615f51.jpg')
-            ->reply($message);
+            ->message()
+            ->title('Music Command')
+            ->content('Hello world!')
+            ->button('👋', route: 'wave')
+            ->send($message);
+    }
+
+    /**
+     * The command interaction routes.
+     */
+    public function interactions(): array
+    {
+        return [
+            'wave' => fn (Interaction $interaction) => $this->message('👋')->reply($interaction), 
+        ];
     }
 }

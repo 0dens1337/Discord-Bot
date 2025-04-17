@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Enums\RoleMessageEnum;
 use Discord\Discord;
 use Discord\Parts\User\Member;
 use Discord\WebSockets\Event as Events;
@@ -24,7 +25,7 @@ class NewComerJoined extends Event
         $channel = $discord->getChannel(config('laracord.messages.welcome_channel_id'));
 
         if ($channel) {
-            $channel->sendMessage("Привет, <@{$member->user->id}>! Добро пожаловать на сервер! 🎉");
+            $channel->sendMessage("Привет, <@{$member->user->id}>! Добро пожаловать на сервер! 🎉" . RoleMessageEnum::FOR_NEW_COMERS->value);
         } else {
             logger()->error('Welcome channel not found. Please check your configuration.');
         }

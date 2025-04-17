@@ -2,24 +2,23 @@
 
 namespace App\Commands;
 
-use Discord\Parts\Interactions\Interaction;
 use Laracord\Commands\Command;
 
-class TestCommand extends Command
+class EasterEggCommand extends Command
 {
     /**
      * The command name.
      *
      * @var string
      */
-    protected $name = 'test';
+    protected $name = 'easterEgg';
 
     /**
      * The command description.
      *
      * @var string
      */
-    protected $description = 'Проверка коннекта с сервером';
+    protected $description = 'The Easter Egg Command command.';
 
     /**
      * Determines whether the command requires admin permissions.
@@ -44,10 +43,13 @@ class TestCommand extends Command
      */
     public function handle($message, $args)
     {
-        return $this
-            ->message('Ее ебут в клубах, парят на хатах, а она остается саммой желланой на этом сервере.')
-            ->title('test')
-            ->image('https://i.pinimg.com/736x/e3/42/c7/e342c7fce89f8401ff662acc73615f51.jpg')
-            ->reply($message);
+        $guild = $message->guild;
+        $member = $guild->members->get('id', $message->author->id);
+        $easterEggRole = config('laracord.role.easter_egg');
+
+        $member->addRole($easterEggRole);
+
+        $message->reply('Поздравляем! Вы нашли пасхалку и получили специальную роль! 🎉');
+        $message->delete();
     }
 }

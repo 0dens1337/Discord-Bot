@@ -56,8 +56,8 @@ class VoiceLogEvent extends Event
     {
         return match ($actionType)
         {
-            'joined' => 'вошел в канал',
-            'left' => 'вышел из канала',
+            'joined' => LogMessagesEnum::JOINED_TO_THE_VOICE_CHANNEL->value,
+            'left' => LogMessagesEnum::LEFT_THE_VOICE_CHANNEL->value,
             default => 'unknown action'
         };
     }
