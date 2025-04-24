@@ -15,5 +15,9 @@ return [
         'admin' => env('ADMIN_ROLE_ID', 'meow'),
         'donater' => env('DONATER_ROLE_ID', 'meow'),
         'easter_egg' => env('EASTER_EGG_ROLE_ID', 'meow'),
+    ],
+
+    'qwen' => [
+        'key' => env('QWEN_API_KEY', 'meow'),
     ]
 ];

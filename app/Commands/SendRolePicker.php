@@ -50,10 +50,10 @@ class SendRolePicker extends Command
     public function handle($message, $args)
     {
         $guild = $message->guild;
-//        $member = $guild->members->get('id', $message->author->id);
-//
-//       $requiredRole = config('laracord.role.admin');
-//       if (! $member->roles->has($requiredRole)) return;
+        $member = $guild->members->get('id', $message->author->id);
+
+       $requiredRole = config('laracord.role.admin');
+       if (! $member->roles->has($requiredRole)) return;
 
         $rolesWithNumbers = $this->getRolesByCondition($guild, function ($role) {
             return preg_match('/\d/', $role->name);
@@ -63,28 +63,23 @@ class SendRolePicker extends Command
             return $role->icon_hash != null;
         }, 'strcasecmp');
 
-
         $this
             ->message()
-            ->withEmbed(
+            ->withEmbeds([
                 (new MessageBuilder())
                     ->addEmbed(
                         (new Embed($this->discord()))
                             ->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
                             ->setImage(RoleMessageEnum::IMAGE->value)
-                    )
-
-            )
-            ->send($message);
-
-        $this
-            ->message()
-            ->withEmbed(
+                    ),
                 (new MessageBuilder())
-                    ->addEmbed((new Embed($this->discord()))->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
+                    ->addEmbed((new Embed($this->discord()))
+                        ->setColor(EmbedColorsEnum::DEFAULT_COLOR->value)
                         ->setTitle(EmojiMessageEnum::EMOJI_TEMPLATE->value)
-                        ->setDescription(RoleMessageEnum::TEMPLATE->value))
-            )
+                        ->setDescription(RoleMessageEnum::TEMPLATE->value)
+                        ->setFooter(RoleMessageEnum::FOOTER->value)
+                    )
+            ])
             ->select($rolesWithNumbers, placeholder: RoleMessageEnum::PICK_A_COLOR->value, route: 'roles_with_numbers')
             ->select($rolesWithIcons, placeholder: EmojiMessageEnum::PICK_AN_EMOJI->value, route: 'roles_with_icons')
             ->send($message);

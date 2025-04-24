@@ -50,4 +50,14 @@ class TestCommand extends Command
             ->image('https://i.pinimg.com/736x/e3/42/c7/e342c7fce89f8401ff662acc73615f51.jpg')
             ->reply($message);
     }
+
+    /**
+     * The command interaction routes.
+     */
+//    public function interactions(): array
+//    {
+//        return [
+//            'wave' => fn (Interaction $interaction) => $this->message('👋')->reply($interaction),
+//        ];
+//    }
 }

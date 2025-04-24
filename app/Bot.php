@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Discord\Parts\User\Activity;
 use Illuminate\Support\Facades\Route;
 use Laracord\Laracord;
 
@@ -22,5 +23,15 @@ class Bot extends Laracord
             //     'description' => $command->getDescription(),
             // ]));
         });
+    }
+
+    public function afterBoot(): void
+    {
+        $activity = new Activity($this->discord, [
+            'type' => Activity::TYPE_STREAMING,
+            'name' => 'как дима режет свиней',
+        ]);
+
+        $this->discord()->updatePresence($activity);
     }
 }
